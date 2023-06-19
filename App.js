@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { TouchableHighlight, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
+//import { useNavigation } from '@react-navigation/native';
 
 export default function App() {
   const [isLoading, setLoading] = useState(true);
@@ -11,6 +12,12 @@ export default function App() {
     Cocktail();
   }, []);
 
+  // const navigation = useNavigation();
+
+  // const handleClick = () => {
+  //   navigation.navigate('Cocktail.js');
+  // };
+
   const Cocktail = async () => {
     try {
       fetch(
@@ -20,7 +27,7 @@ export default function App() {
         .then((json) => {
           if (json) {
             setData(json.drinks);
-            console.log(json.drinks);
+            //console.log(json.drinks);
           }
         });
     } catch (error) {
@@ -43,16 +50,18 @@ export default function App() {
       <ScrollView>
         {data.map((item) => (
           <View key={item.idDrink} style={styles.Cocktail}>
-            <Text>
-              {item.strDrink}
-            </Text>
+            <TouchableHighlight>
+              <Text>
+                {item.strDrink}
+              </Text>
+            </TouchableHighlight>
             <Image source={{
               uri: `${item.strDrinkThumb}`
             }} style={styles.Icon} />
           </View>
-          ))}
+        ))}
       </ScrollView>
-      <StatusBar style='auto'/>
+      <StatusBar style='auto' />
     </View>
   );
 }
